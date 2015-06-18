@@ -1,0 +1,4 @@
+node_modules
+cargarApp.cmd
+error.log
+npm-debug.log
