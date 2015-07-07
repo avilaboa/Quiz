@@ -65,6 +65,7 @@ exports.edit = function(req, res) {
   res.render('quizes/edit', {quiz: quiz, errors: []});
 };
 
+
 // GET /author
 exports.author = function(req, res) {
 	res.render('author', { errors: [] });
