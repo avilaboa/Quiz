@@ -45,6 +45,21 @@ app.use(function(req, res, next) {
 });
 
 
+app.use(function(req, res, next) {
+    if (req.session.user) {
+        var newTime = (new Date()).getTime();
+        var lastTime = (new Date(req.session.user.lastAccess)).getTime();
+
+        if ((newTime - lastTime) > (2 * 60 * 1000)) {
+            console.log("Tiempo agotado !");
+            delete req.session.user;
+        } else {
+            req.session.user.lastAccess = new Date();
+        }
+    }
+    next();
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
