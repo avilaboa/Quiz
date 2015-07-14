@@ -28,6 +28,7 @@ router.post(  '/quizes/create',               sessionController.loginRequired, q
 router.get(   '/quizes/:quizId(\\d+)/edit',   sessionController.loginRequired, quizController.edit);
 router.put(   '/quizes/:quizId(\\d+)',        sessionController.loginRequired, quizController.update);
 router.delete('/quizes/:quizId(\\d+)',        sessionController.loginRequired, quizController.destroy);
+router.get(   '/quizes/statistics', 		  quizController.statistics );
 
 router.get('/author', quizController.author);
 

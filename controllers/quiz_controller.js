@@ -125,3 +125,39 @@ exports.destroy = function(req, res) {
   }).catch(function(error){next(error)});
 };
 
+//GET /quizes/statistics
+exports.statistics = function(req, res) {
+
+    models.Quiz.findAll({include: [{ model: models.Comment }]}).then(function(quizes) {
+        var estadisticas = {
+            numeroPreguntas: 0,
+            numeroComentarios: 0,
+            mediaComentarios: 0,
+            numeroPreguntasSinComentarios: 0,
+            numeroPreguntasConComentarios: 0
+        };
+
+        for (var i = 0; i < quizes.length; i++) {
+            estadisticas.numeroPreguntas++;
+            if ( quizes[i].comments != undefined && quizes[i].comments.length > 0) {
+                estadisticas.numeroPreguntasConComentarios++;
+                estadisticas.numeroComentarios += quizes[i].comments.length;
+            } else {
+                estadisticas.numeroPreguntasSinComentarios++;
+            }
+        };
+
+        if (estadisticas.numeroPreguntas > 0) {
+            estadisticas.mediaComentarios = estadisticas.numeroComentarios / estadisticas.numeroPreguntas;
+        }
+
+        res.render('quizes/statistics', {
+            statistics: estadisticas,
+            title: 'Quizes',
+            errors: []
+        });
+    }).catch(function(error) {
+        console.log(error);
+        next(error);
+    });
+};
